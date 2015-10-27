@@ -57,6 +57,7 @@ class Bot:
             self.channel_name = settings["channelName"]
             self.min_countdown = settings["callouts"]["timeBetween"]["minTime"]
             self.max_countdown = settings["callouts"]["timeBetween"]["maxTime"]
+            self.total_people_multiplier = settings["callouts"]["timeBetween"]["totalPeopleMultiplier"]
             self.num_people_per_callout = settings["callouts"]["numPeople"]
             self.sliding_window_size = settings["callouts"]["slidingWindowSize"]
             self.group_callout_chance = settings["callouts"]["groupCalloutChance"]
@@ -182,7 +183,10 @@ def selectExercise(bot):
 Selects the next time interval
 '''
 def selectNextTimeInterval(bot):
-    return random.randrange(bot.min_countdown * 60, bot.max_countdown * 60)
+    active_users_count = len(fetchActiveUsers(bot))
+    min_countdown = int(bot.min_countdown / (1.0 + (active_users_count * bot.total_people_multiplier)))
+    max_countdown = int(bot.max_countdown / (1.0 + (active_users_count * bot.total_people_multiplier)))
+    return random.randrange(min_countdown * 60, max_countdown * 60)
 
 
 '''

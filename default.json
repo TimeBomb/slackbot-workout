@@ -15,7 +15,8 @@
     "timeBetween": {
       "minTime": 17,
       "maxTime": 23,
-      "units": "minutes"
+      "units": "minutes",
+      "totalPeopleMultiplier": 0.025
     },
     "numPeople": 3,
     "slidingWindowSize": 8,
